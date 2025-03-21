@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # 每一小时执行
+  workflow_dispatch:  # 也可以手动触发
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run script
+        id: version
+        run: |
+            bash -x ./scripts/wechat_update_checker.sh
+            if ! ls *.txt 1> /dev/null 2>&1; then
+              echo "version=未找到" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+            version=$(cat ./version.txt)
+            url=$(cat ./url.txt)
+            hash=$(cat ./hash.txt)
+            last_modified=$(cat ./last_modified.txt)
+            echo "version=$version" >> $GITHUB_OUTPUT
+            echo "url=$url" >> $GITHUB_OUTPUT
+            echo "sha256=$hash" >> $GITHUB_OUTPUT
+            echo "last_modify=$last_modified" >> $GITHUB_OUTPUT
+
+      - name: Rename file
+        if: steps.version.outputs.version != '未找到'
+        run: mv WeChatWin.exe weixin_${{ steps.version.outputs.version }}.exe
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        if: steps.version.outputs.version != '未找到'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: WeChat Windows Version ${{ steps.version.outputs.version }}
+          body: |
+            **Version:** ${{ steps.version.outputs.version }}
+            **Download URL:** ${{ steps.version.outputs.url }}
+            **SHA256:** ${{ steps.version.outputs.sha256 }}
+            **Last Modified:** ${{ steps.version.outputs.last_modify }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        if: steps.version.outputs.version != '未找到'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: weixin_${{ steps.version.outputs.version }}.exe
+          asset_name: weixin_${{ steps.version.outputs.version }}.exe
+          asset_content_type: application/octet-stream
