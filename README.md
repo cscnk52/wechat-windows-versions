@@ -14,6 +14,6 @@
 
 - [微信 Windows 64 位 3.0 版本存档](https://github.com/tom-snow/wechat-windows-versions)
 - [微信 Windows 32 位 3.0 版本存档](https://github.com/tom-snow/wechat-windows-versions-x86)
-- [微信 Mac 3.0 版本存档](https://github.com/zsbai/wechat-versions)
+- [微信 Mac 3.0 & 4.0 版本存档](https://github.com/zsbai/wechat-versions)
 
 本项目代码在 [MIT](https://mit-license.org/) 许可证下发布，相关安装包归其原公司所有，本项目仅作存档，不对其做任何更改。
