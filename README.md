@@ -6,7 +6,7 @@
 
 项目使用 Github Actions 自动下载微信最新版本安装包并推送至仓库 [Releases](https://github.com/cscnk52/wechat-windows-versions/releases)
 
-项目也为 [Scoop](https://scoop.sh) 中的官方 [Extras](https://github.com/ScoopInstaller/Extras) 库和 [Cetacea](https://github.com/cscnk52/cetacea) 库提供微信版本信息及文件下载
+项目也为 [Scoop](https://scoop.sh) 中的官方 [Extras](https://github.com/ScoopInstaller/Extras/blob/master/bucket/wechat.json) 库和 [Cetacea](https://github.com/cscnk52/cetacea/blob/master/bucket/wechat.json) 库提供微信版本信息及文件下载
 
 项目仅抓取官网更新，如果需要获取内测安装包，请关注 [Telegram@wechat_updatelog](https://t.me/wechat_updatelog)
 
