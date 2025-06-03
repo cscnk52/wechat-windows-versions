@@ -6,7 +6,7 @@
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/cscnk52/wechat-windows-versions/total)
 ![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/cscnk52/wechat-windows-versions/latest/total)
 
-This project uses `GitHub Actions` to automatically download the latest version of the WeChat installer and push it to the [Releases](https://github.com/cscnk52/wechat-windows-versions/releases) section of the repository.
+This project uses `GitHub Actions` to automatically check for updates **every hour**, download the latest version of the WeChat installer, and push it to the [Releases](https://github.com/cscnk52/wechat-windows-versions/releases) section of the repository.
 
 It also offers version info and download links from the [Scoop](https://scoop.sh) [Extras](https://github.com/ScoopInstaller/Extras/blob/master/bucket/wechat.json) and [Cetacea](https://github.com/cscnk52/cetacea/blob/master/bucket/wechat.json) buckets.
 
