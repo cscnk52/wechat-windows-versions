@@ -1,0 +1,9 @@
+[project]
+name = "wechat-windows-versions"
+version = "0.1.0"
+description = "Automated Archive of WeChat for Windows"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiohttp>=3.12.15",
+]
