@@ -1,4 +1,4 @@
-main:
+run:
     uv run src/main.py
 
 fmt:
