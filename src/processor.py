@@ -17,11 +17,11 @@ Last Modified: {modified_time}"""
 
 
 async def main():
-    """Main function"""
+    """Download and process WeChat"""
     setup_logging()
 
-    # Check for updates
-    has_update, official_time, repo_time = await check_for_updates() # pyright: ignore[reportUnusedVariable]
+    # Check for updates first
+    has_update, official_time, repo_time = await check_for_updates() # type: ignore
 
     if has_update:
         logging.info("Starting download and processing...")

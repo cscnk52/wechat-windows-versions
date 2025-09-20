@@ -1,2 +1,4 @@
 .venv
 .ruff_cache
+src/__pycache__
+/build

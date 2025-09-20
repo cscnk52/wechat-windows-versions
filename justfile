@@ -1,8 +1,17 @@
+check:
+    uv run python -m src.checker
+
+process:
+    uv run python -m src.processor
+
 run:
-    uv run src/main.py
+    uv run python -m src.processor
+
+install:
+    uv sync
 
 fmt:
-    uv run ruff format
+    uv run ruff format src/
 
-check:
-    uv run ruff check
+lint:
+    uv run ruff check src/

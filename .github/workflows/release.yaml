@@ -1,62 +1,84 @@
-name: Release
+name: 📦 Check and Release WeChat
 
 on:
   schedule:
-    - cron: '0 * * * *'  # 每一小时执行
-  workflow_dispatch:  # 也可以手动触发
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  release:
+  check:
     runs-on: ubuntu-latest
+    outputs:
+      has_update: ${{ steps.version-check.outputs.has_update }}
+      modified_time: ${{ steps.version-check.outputs.modified_time }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-      - name: Run script
-        id: version
-        run: |
-            bash -x ./scripts/wechat_update_checker.sh
-            if ! ls *.txt 1> /dev/null 2>&1; then
-              echo "version=未找到" >> $GITHUB_OUTPUT
-              exit 0
-            fi
-            version=$(cat ./version.txt)
-            url=$(cat ./url.txt)
-            hash=$(cat ./hash.txt)
-            last_modified=$(cat ./last_modified.txt)
-            echo "version=$version" >> $GITHUB_OUTPUT
-            echo "url=$url" >> $GITHUB_OUTPUT
-            echo "sha256=$hash" >> $GITHUB_OUTPUT
-            echo "last_modify=$last_modified" >> $GITHUB_OUTPUT
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
 
-      - name: Rename file
-        if: steps.version.outputs.version != '未找到'
-        run: mv WeChatWin.exe weixin_${{ steps.version.outputs.version }}.exe
+      - name: Install uv
+        uses: astral-sh/setup-uv@v2
+        with:
+          enable-cache: true
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Install Python dependencies
+        run: uv sync
+
+      - name: Check for updates
+        id: version-check
+        run: just check
+
+  release:
+    needs: [check]
+    if: needs.check.outputs.has_update == 'true'
+    runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - uses: astral-sh/setup-uv@v2
+        with:
+          enable-cache: true
+
+      - uses: extractions/setup-just@v2
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y p7zip-full
+
+      - name: Install Python dependencies
+        run: uv sync
+
+      - name: Download and process WeChat
+        id: process
+        run: just process
 
       - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        if: steps.version.outputs.version != '未找到'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: v${{ steps.version.outputs.version }}
-          release_name: WeChat Windows Version ${{ steps.version.outputs.version }}
-          body: |
-            **Version:** ${{ steps.version.outputs.version }}
-            **Download URL:** ${{ steps.version.outputs.url }}
-            **SHA256:** ${{ steps.version.outputs.sha256 }}
-            **Last Modified:** ${{ steps.version.outputs.last_modify }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        if: steps.version.outputs.version != '未找到'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: weixin_${{ steps.version.outputs.version }}.exe
-          asset_name: weixin_${{ steps.version.outputs.version }}.exe
-          asset_content_type: application/octet-stream
+          tag: v${{ steps.process.outputs.version }}
+          name: WeChat ${{ steps.process.outputs.version }}
+          body: ${{ steps.process.outputs.release_body }}
+          artifacts: ${{ steps.process.outputs.file_path }}
+          makeLatest: true
+          allowUpdates: false
+          skipIfReleaseExists: true
+          token: ${{ secrets.GITHUB_TOKEN }}
