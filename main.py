@@ -18,6 +18,7 @@ def extract_official_time():
     )
     assert download_link_re, "download link not find"
     download_link_text = download_link_re.group(0)
+    print("official download lik",download_link_text)
     state["download_link"] = download_link_text
     download = httpx.head(download_link_text)
     time_text = download.headers.get("Last-Modified")
