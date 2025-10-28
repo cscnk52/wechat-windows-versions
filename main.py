@@ -114,7 +114,7 @@ def main():
     if github_output:
         with open(github_output, "a", encoding="utf-8") as f:
             f.write(f"version={state.get('version', '')}\n")
-            f.write(f"updated={updated}")
+            f.write(f"updated={str(updated).lower()}")
 
 
 if __name__ == "__main__":
