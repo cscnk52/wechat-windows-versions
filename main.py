@@ -13,7 +13,7 @@ state = {
 def extract_official_time():
     website = httpx.get("https://pc.weixin.qq.com/")
     download_link_re = re.search(
-        r"https://dldir1v6\.qq\.com/weixin/Universal/Windows/WeChatWin_([\d\.]+)\.exe",
+        r"https://dldir1v6\.qq\.com/weixin/Universal/Windows/.+\.exe",
         website.text,
     )
     assert download_link_re, "download link not find"
