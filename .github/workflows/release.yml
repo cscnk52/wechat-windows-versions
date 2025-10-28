@@ -26,7 +26,7 @@ jobs:
         id: check
 
       - uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1.20.0
-        if: steps.check.outputs.updated
+        if: steps.check.outputs.updated == 'true'
         with:
           tag: v${{ steps.check.outputs.version }}
           name: WeChat Windows Version ${{ steps.check.outputs.version }}
