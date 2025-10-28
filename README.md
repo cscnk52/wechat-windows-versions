@@ -2,7 +2,7 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-[![Release](https://github.com/cscnk52/wechat-windows-versions/actions/workflows/release.yaml/badge.svg)](https://github.com/cscnk52/wechat-windows-versions/actions/workflows/release.yaml)
+[![Release](https://github.com/cscnk52/wechat-windows-versions/actions/workflows/release.yml/badge.svg)](https://github.com/cscnk52/wechat-windows-versions/actions/workflows/release.yaml)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/cscnk52/wechat-windows-versions/total)
 ![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/cscnk52/wechat-windows-versions/latest/total)
 

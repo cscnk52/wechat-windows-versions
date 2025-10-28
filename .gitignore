@@ -1,0 +1,3 @@
+.venv
+build
+.ruff_cache
