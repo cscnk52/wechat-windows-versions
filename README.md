@@ -10,12 +10,12 @@ This project uses `GitHub Actions` to automatically check for updates **every ho
 
 It also offers version info and download links from the [Scoop](https://scoop.sh) [Extras](https://github.com/ScoopInstaller/Extras/blob/master/bucket/wechat.json) and [Cetacea](https://github.com/cscnk52/cetacea/blob/master/bucket/wechat.json) buckets.
 
-Only official release updates are tracked. If you are looking for beta versions, please follow [Telegram@wechat\_updatelog](https://t.me/wechat_updatelog).
+Only official release updates are tracked. If you are looking for beta versions, please follow [Telegram@wechat_updatelog](https://t.me/wechat_updatelog).
 
 Related Projects:
 
-* [WeChat Windows 64-bit 3.0 Archive](https://github.com/tom-snow/wechat-windows-versions)
-* [WeChat Windows 32-bit 3.0 Archive](https://github.com/tom-snow/wechat-windows-versions-x86)
-* [WeChat Mac 3.0 & 4.0 Archive](https://github.com/zsbai/wechat-versions)
+- [WeChat Windows 64-bit 3.0 Archive](https://github.com/tom-snow/wechat-windows-versions)
+- [WeChat Windows 32-bit 3.0 Archive](https://github.com/tom-snow/wechat-windows-versions-x86)
+- [WeChat Mac 3.0 & 4.0 Archive](https://github.com/zsbai/wechat-versions)
 
 This project is released under the [MIT License](./LICENSE). The installers belong to their respective owners. This project is for archival purposes only and does not modify any files.
