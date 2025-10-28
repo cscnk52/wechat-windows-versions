@@ -1,16 +1,11 @@
 [project]
 name = "wechat-windows-versions"
 version = "0.1.0"
-description = "Automated Archive of WeChat for Windows"
+description = "Automated Archive of WeChat for Windows "
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
-  "aiohttp>=3.12.15",
-  "py7zr>=1.0.0",
-  "python-dateutil>=2.9.0.post0",
-]
-
-[dependency-groups]
-dev = [
-  "ruff>=0.12.12",
+    "httpx>=0.28.1",
+    "py7zr>=1.0.0",
+    "python-dateutil>=2.9.0.post0",
 ]
