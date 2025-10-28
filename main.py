@@ -1,4 +1,4 @@
-import httpx, re, subprocess, hashlib
+import httpx, re, subprocess, hashlib, os
 from dateutil import parser, tz
 from pathlib import Path
 
@@ -85,16 +85,36 @@ def sha256():
     state["SHA256"] = hashlib.sha256(data).hexdigest()
 
 
+def generate_release_note():
+    release_note = (
+        f"Version: {state['version']}\n"
+        f"Download URL: {state['download_link']}\n"
+        f"SHA256: {state['SHA256']}\n"
+        f"Last Modified: {state['last_modified']}\n"
+    )
+    Path("build/releaseNote.md").write_text(release_note, encoding="utf-8")
+
+
 def main():
     official_time = extract_official_time()
     repo_time = extract_repo_time()
-    # if official_time <= repo_time:
-    #     print("version is up to date")
-    #     return
-    state["last_modified"] = str(max(official_time, repo_time))
-    extract_installer_version()
-    sha256()
-    print(state)
+    updated = official_time > repo_time
+    if not updated:
+        print("version is up to date")
+    else:
+        state["last_modified"] = str(max(official_time, repo_time))
+        extract_installer_version()
+        sha256()
+        print(state)
+
+        generate_release_note()
+        os.rename("build/weixin.exe", f"build/weixin_{state['version']}.exe")
+
+    github_output = os.getenv("GITHUB_OUTPUT")
+    if github_output:
+        with open(github_output, "a", encoding="utf-8") as f:
+            f.write(f"version={state.get('version', '')}\n")
+            f.write(f"updated={updated}")
 
 
 if __name__ == "__main__":
