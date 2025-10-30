@@ -34,4 +34,4 @@ jobs:
           name: WeChat Windows Version ${{ steps.check.outputs.version }}
           artifacts: build/weixin_${{ steps.check.outputs.version }}.exe
           bodyFile: build/releaseNote.md
-          # immutableCreate: true
+          immutableCreate: true
