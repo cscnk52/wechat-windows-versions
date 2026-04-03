@@ -16,8 +16,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - run: sudo apt install -y p7zip-full
-
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version-file: ".python-version"
@@ -27,7 +25,7 @@ jobs:
       - run: uv run main.py
         id: check
 
-      - uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1.20.0
+      - uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
         if: steps.check.outputs.updated == 'true'
         with:
           tag: v${{ steps.check.outputs.version }}
