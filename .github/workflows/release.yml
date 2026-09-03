@@ -33,3 +33,4 @@ jobs:
           artifacts: build/weixin_${{ steps.check.outputs.version }}.exe
           bodyFile: build/releaseNote.md
           immutableCreate: true
+          makeLatest: true
